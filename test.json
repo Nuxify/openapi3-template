@@ -1,0 +1,174 @@
+{
+  "openapi": "3.0.2",
+  "info": {
+    "title": "FrontRx External API",
+    "description": "API documentation of FrontRx dedicated for third-party integrators.",
+    "termsOfService": "https://www.frontrx.com/terms-and-conditions/",
+    "contact": { "email": "support@frontrx.com" },
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.frontrx.com/api/external",
+      "description": "Production"
+    },
+    { "url": "https://api2.frontrx.xyz/api/external", "description": "Staging" }
+  ],
+  "tags": [
+    {
+      "name": "general",
+      "description": "No scope endpoints"
+    },
+    {
+      "name": "user",
+      "description": "User scope endpoints"
+    },
+    {
+      "name": "prescription",
+      "description": "Prescription scope endpoints"
+    },
+    {
+      "name": "document",
+      "description": "Document scope endpoints"
+    }
+  ],
+  "paths": {
+    "/register": {
+      "post": {
+        "tags": ["general"],
+        "summary": "Register a user",
+        "description": "Create a user using external key",
+        "operationId": "registerUser",
+        "requestBody": {
+          "description": "Register a user",
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/RegisterUser" }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": { "description": "Success" },
+          "4xx": { "description": "Client side errors" },
+          "5xx": { "description": "Server side errors" }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "RegisterUser": {
+        "type": "object",
+        "properties": {
+          "email": { "type": "string" },
+          "address": { "type": "string" },
+          "fax_number": { "type": "string" },
+          "license_number": { "type": "string" },
+          "password": { "type": "string", "format": "password" },
+          "first_name": { "type": "string" },
+          "last_name": { "type": "string" },
+          "country": { "type": "string" },
+          "state": {
+            "type": "string",
+            "enum": [
+              "Alberta",
+              "British Columbia",
+              "Manitoba",
+              "New Brunswick",
+              "Newfoundland and Labrador",
+              "Northwest Territories",
+              "Nova Scotia",
+              "Nunavut",
+              "Ontario",
+              "Prince Edward Island",
+              "Quebec",
+              "Saskatchewan",
+              "Yukon Territory"
+            ]
+          },
+          "type": { "type": "string", "enum": ["doctor"] },
+          "speciality": {
+            "type": "string",
+            "enum": [
+              "General Practitioner/Family Medicine",
+              "Anatomical Pathology",
+              "Anesthesiology",
+              "Medical Biochemistry",
+              "Cardiology",
+              "Cardiac Surgery",
+              "Orthopedic Surgery",
+              "Plastic Surgery",
+              "Vascular Surgery",
+              "Dermatology",
+              "Endocrinology And Metabolism",
+              "Medical Student",
+              "Gastroenterology",
+              "Medical Genetics",
+              "Geriatric Medicine",
+              "Hematology",
+              "Clinical Immunology And Allergy",
+              "Infectious Diseases",
+              "Emergency Mdeicine",
+              "Laboratory Medicine",
+              "Occupational Medicine",
+              "Internal Medicine",
+              "Nuclear Medicine",
+              "Physical Medicine And Rehabilitation",
+              "Medical Microbiology",
+              "Infectious Diseases And Medical Microbiology",
+              "Nephrology",
+              "Neurosurgery",
+              "Neurology",
+              "Neurology - Pediatric",
+              "Neuropathology",
+              "Obstetrics And Gynecology",
+              "Medical Oncology",
+              "Ophthalmology",
+              "Otolaryngology - Head And Neck Surgery",
+              "General Pathology",
+              "Hematological Pathology",
+              "Pediatrics",
+              "Clinical Phramacology And Toxicology",
+              "Respirology",
+              "Psychiatry",
+              "Radiation Oncology",
+              "Diagnostic Radiology",
+              "Rheumatology",
+              "Public Health And Preventive Medicine",
+              "Critical Care Medicine",
+              "Urology"
+            ]
+          },
+          "signup_from": { "type": "string", "enum": ["external"] },
+          "workplace_role": {
+            "type": "string",
+            "enum": [
+              "physician",
+              "nurse_practitioner",
+              "prescriber_pharmacist",
+              "medical_student",
+              "physician_assistant",
+              "medical_resident",
+              "registered_nurse",
+              "administrative_agent"
+            ]
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "description": "Prefix the value with \"Token\" to indicate the custom authorization prefix"
+      }
+    }
+  }
+}
