@@ -1,0 +1,969 @@
+{
+    "openapi": "3.0.2",
+    "info": {
+      "title": "FrontRx External API",
+      "description": "API documentation of FrontRx dedicated for third-party integrators.",
+      "termsOfService": "https://www.frontrx.com/terms-and-conditions/",
+      "contact": { "email": "support@frontrx.com" },
+      "version": "1.0.0"
+    },
+    "servers": [
+      {
+        "url": "https://api.frontrx.com/api/external",
+        "description": "Production"
+      },
+      { "url": "https://api2.frontrx.xyz/api/external", "description": "Staging" }
+    ],
+    "tags": [
+      {
+        "name": "general",
+        "description": "No scope endpoints"
+      },
+      {
+        "name": "user",
+        "description": "User scope endpoints"
+      },
+      {
+        "name": "prescription",
+        "description": "Prescription scope endpoints"
+      },
+      {
+        "name": "document",
+        "description": "Document scope endpoints"
+      }
+    ],
+    "paths": {
+      "/register": {
+        "post": {
+          "tags": ["general"],
+          "summary": "Register a user",
+          "description": "Create a user using external key",
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "requestBody": {
+            "description": "Register a user",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/RegisterUser" }
+              }
+            },
+            "required": true
+          },
+          "responses": {
+            "201": { "description": "Success" },
+            "4xx": { "description": "Client side errors" },
+            "5xx": { "description": "Server side errors" }
+          }
+        }
+      },
+      "/fax/resend": {
+        "post": {
+          "tags": ["general"],
+          "summary": "Resend fax",
+          "description": "Resend fax request",
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "name": "user_id",
+              "in": "header",
+              "description": "User id",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "requestBody": {
+            "description": "Register a user",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ResendFax" }
+              }
+            },
+            "required": true
+          },
+          "responses": {
+            "200": { "description": "Success" },
+            "4xx": { "description": "Client side errors" },
+            "5xx": { "description": "Server side errors" }
+          }
+        }
+      },
+      "/list_pharmacies": {
+        "get": {
+          "tags": ["general"],
+          "summary": "List of pharmacies",
+          "description": "Get list of workplace pharmacies",
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "responses": {
+            "200": { "description": "Success" },
+            "4xx": { "description": "Client side errors" },
+            "5xx": { "description": "Server side errors" }
+          }
+        }
+      },
+      "/places/me": {
+        "get": {
+          "tags": ["general"],
+          "summary": "Current workplace",
+          "description": "Get current user workplace",
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "responses": {
+            "200": { "description": "Success" },
+            "4xx": { "description": "Client side errors" },
+            "5xx": { "description": "Server side errors" }
+          }
+        }
+      },
+      "/places/prescribers": {
+        "get": {
+          "tags": ["general"],
+          "summary": "Workplace prescribers",
+          "description": "Get workplace prescribers",
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "name": "placeID",
+              "in": "query",
+              "description": "Target workplace id",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": { "description": "Success" },
+            "4xx": { "description": "Client side errors" },
+            "5xx": { "description": "Server side errors" }
+          }
+        }
+      },
+      "/places_hospitals": {
+        "get": {
+          "tags": ["general"],
+          "summary": "List of hospitals",
+          "description": "Get list of workplace hospitals",
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "responses": {
+            "200": { "description": "Success" },
+            "4xx": { "description": "Client side errors" },
+            "5xx": { "description": "Server side errors" }
+          }
+        }
+      },
+      "/me": {
+        "get": {
+          "tags": ["user"],
+          "summary": "User Info",
+          "description": "Get user information",
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "name": "user_id",
+              "in": "header",
+              "description": "User id",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": { "description": "Success" },
+            "4xx": { "description": "Client side errors" },
+            "5xx": { "description": "Server side errors" }
+          }
+        }
+      },
+      "/account": {
+        "get": {
+          "tags": ["user"],
+          "summary": "Account Public Address",
+          "description": "Get account public address",
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "name": "user_id",
+              "in": "header",
+              "description": "User id",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": { "description": "Success" },
+            "4xx": { "description": "Client side errors" },
+            "5xx": { "description": "Server side errors" }
+          }
+        }
+      },
+      "/signature": {
+        "put": {
+          "tags": ["user"],
+          "summary": "Update signature",
+          "description": "Update user signature",
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "name": "user_id",
+              "in": "header",
+              "description": "User id",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "requestBody": {
+            "description": "Upload signature",
+            "content": {
+              "multipart/form-data": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "signature": {
+                      "type": "string",
+                      "format": "binary"
+                    }
+                  }
+                }
+              }
+            },
+            "required": true
+          },
+          "responses": {
+            "200": { "description": "Success" },
+            "4xx": { "description": "Client side errors" },
+            "5xx": { "description": "Server side errors" }
+          }
+        }
+      },
+      "/prescription": {
+        "post": {
+          "tags": ["prescription"],
+          "summary": "Create new prescription",
+          "description": "Create a new prescription",
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "name": "user_id",
+              "in": "header",
+              "description": "User id",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "PharmacyPlaceID",
+              "in": "header",
+              "description": "Target pharmacy workplace id",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "PharmacyFaxNumber",
+              "in": "header",
+              "description": "Target pharmacy workplace fax number",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "PrescribedUnder",
+              "in": "header",
+              "description": "Prescribed under user id",
+              "required": false,
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "IsDestinationFaxEnabled",
+              "in": "header",
+              "description": "Fax sending status",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "requestBody": {
+            "description": "Upload prescription documents",
+            "content": {
+              "multipart/form-data": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "upload": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "format": "binary"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "required": true
+          },
+          "responses": {
+            "200": { "description": "Success" },
+            "4xx": { "description": "Client side errors" },
+            "5xx": { "description": "Server side errors" }
+          }
+        },
+        "put": {
+          "tags": ["prescription"],
+          "summary": "Update prescription",
+          "description": "Update prescription status",
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "name": "user_id",
+              "in": "header",
+              "description": "User id",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "requestBody": {
+            "description": "Update a prescription",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/UpdatePrescription" }
+              }
+            },
+            "required": true
+          },
+          "responses": {
+            "200": { "description": "Success" },
+            "4xx": { "description": "Client side errors" },
+            "5xx": { "description": "Server side errors" }
+          }
+        }
+      },
+      "/fax/{prescription_id}": {
+        "get": {
+          "tags": ["prescription"],
+          "summary": "Prescription fax info",
+          "description": "Get prescription fax info",
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "name": "user_id",
+              "in": "header",
+              "description": "User id",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "prescription_id",
+              "in": "path",
+              "description": "Target prescription id",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": { "description": "Success" },
+            "4xx": { "description": "Client side errors" },
+            "5xx": { "description": "Server side errors" }
+          }
+        }
+      },
+      "/prescriptions": {
+        "get": {
+          "tags": ["prescription"],
+          "summary": "List of doctor prescriptions",
+          "description": "Get prescriptions created by doctor-type user",
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "name": "user_id",
+              "in": "header",
+              "description": "User id",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": { "description": "Success" },
+            "4xx": { "description": "Client side errors" },
+            "5xx": { "description": "Server side errors" }
+          }
+        }
+      },
+      "/prescriptions/place": {
+        "get": {
+          "tags": ["prescription"],
+          "summary": "List of prescriptions by pharmacy",
+          "description": "Get prescriptions by pharmacy workplace",
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "name": "user_id",
+              "in": "header",
+              "description": "User id",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "placeID",
+              "in": "query",
+              "description": "Target pharmacy workplace id",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": { "description": "Success" },
+            "4xx": { "description": "Client side errors" },
+            "5xx": { "description": "Server side errors" }
+          }
+        }
+      },
+      "/view_prescription": {
+        "get": {
+          "tags": ["prescription"],
+          "summary": "Prescription info by file hash",
+          "description": "Get prescription info by file hash",
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "name": "user_id",
+              "in": "header",
+              "description": "User id",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "hash",
+              "in": "query",
+              "description": "Target prescription file hash",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": { "description": "Success" },
+            "4xx": { "description": "Client side errors" },
+            "5xx": { "description": "Server side errors" }
+          }
+        }
+      },
+      "/document/send": {
+        "post": {
+          "tags": ["document"],
+          "summary": "Send a document",
+          "description": "Send a document",
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "name": "user_id",
+              "in": "header",
+              "description": "User id",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "SentOnBehalfOf",
+              "in": "header",
+              "description": "Sent on behalf of user id",
+              "required": false,
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "Recipients",
+              "in": "header",
+              "description": "Recipients user ids",
+              "required": true,
+              "schema": {
+                "type": "array",
+                "format": "string"
+              }
+            }
+          ],
+          "requestBody": {
+            "description": "Upload documents",
+            "content": {
+              "multipart/form-data": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "upload": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "format": "binary"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "required": true
+          },
+          "responses": {
+            "201": { "description": "Success" },
+            "4xx": { "description": "Client side errors" },
+            "5xx": { "description": "Server side errors" }
+          }
+        }
+      },
+      "/document/non-frontrx-user": {
+        "post": {
+          "tags": ["document"],
+          "summary": "Create non-frontrx user",
+          "description": "Create a non-frontrx user",
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "name": "user_id",
+              "in": "header",
+              "description": "User id",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "requestBody": {
+            "description": "Create a non-frontrx user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateNonFrontrxUserRequest"
+                }
+              }
+            },
+            "required": true
+          },
+          "responses": {
+            "201": { "description": "Success" },
+            "4xx": { "description": "Client side errors" },
+            "5xx": { "description": "Server side errors" }
+          }
+        }
+      },
+      "/fax_document/{fax_document_id}": {
+        "get": {
+          "tags": ["document"],
+          "summary": "Document fax info",
+          "description": "Get document fax info",
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "name": "user_id",
+              "in": "header",
+              "description": "User id",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "fax_document_id",
+              "in": "path",
+              "description": "Target fax document id",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": { "description": "Success" },
+            "4xx": { "description": "Client side errors" },
+            "5xx": { "description": "Server side errors" }
+          }
+        }
+      },
+      "/document/recipients": {
+        "get": {
+          "tags": ["document"],
+          "summary": "List of document recipients",
+          "description": "Get list of document recipients",
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "name": "user_id",
+              "in": "header",
+              "description": "User id",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": { "description": "Success" },
+            "4xx": { "description": "Client side errors" },
+            "5xx": { "description": "Server side errors" }
+          }
+        }
+      },
+      "/document/file/{document_id}": {
+        "get": {
+          "tags": ["document"],
+          "summary": "Document URL",
+          "description": "Get document presigned url",
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "name": "user_id",
+              "in": "header",
+              "description": "User id",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "document_id",
+              "in": "path",
+              "description": "Target document id",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": { "description": "Success" },
+            "4xx": { "description": "Client side errors" },
+            "5xx": { "description": "Server side errors" }
+          }
+        }
+      },
+      "/documents/received": {
+        "get": {
+          "tags": ["document"],
+          "summary": "Received Documents",
+          "description": "Get received documents by user",
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "name": "user_id",
+              "in": "header",
+              "description": "User id",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": { "description": "Success" },
+            "4xx": { "description": "Client side errors" },
+            "5xx": { "description": "Server side errors" }
+          }
+        }
+      },
+      "/documents/sent": {
+        "get": {
+          "tags": ["document"],
+          "summary": "Sent Documents",
+          "description": "Get sent documents by user",
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "name": "user_id",
+              "in": "header",
+              "description": "User id",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": { "description": "Success" },
+            "4xx": { "description": "Client side errors" },
+            "5xx": { "description": "Server side errors" }
+          }
+        }
+      }
+    },
+    "components": {
+      "schemas": {
+        "RegisterUser": {
+          "type": "object",
+          "properties": {
+            "email": { "type": "string" },
+            "address": { "type": "string" },
+            "fax_number": { "type": "string" },
+            "license_number": { "type": "string" },
+            "password": { "type": "string", "format": "password" },
+            "first_name": { "type": "string" },
+            "last_name": { "type": "string" },
+            "country": { "type": "string" },
+            "state": {
+              "type": "string",
+              "enum": [
+                "Alberta",
+                "British Columbia",
+                "Manitoba",
+                "New Brunswick",
+                "Newfoundland and Labrador",
+                "Northwest Territories",
+                "Nova Scotia",
+                "Nunavut",
+                "Ontario",
+                "Prince Edward Island",
+                "Quebec",
+                "Saskatchewan",
+                "Yukon Territory"
+              ]
+            },
+            "type": { "type": "string", "enum": ["doctor"] },
+            "speciality": {
+              "type": "string",
+              "enum": [
+                "General Practitioner/Family Medicine",
+                "Anatomical Pathology",
+                "Anesthesiology",
+                "Medical Biochemistry",
+                "Cardiology",
+                "Cardiac Surgery",
+                "Orthopedic Surgery",
+                "Plastic Surgery",
+                "Vascular Surgery",
+                "Dermatology",
+                "Endocrinology And Metabolism",
+                "Medical Student",
+                "Gastroenterology",
+                "Medical Genetics",
+                "Geriatric Medicine",
+                "Hematology",
+                "Clinical Immunology And Allergy",
+                "Infectious Diseases",
+                "Emergency Mdeicine",
+                "Laboratory Medicine",
+                "Occupational Medicine",
+                "Internal Medicine",
+                "Nuclear Medicine",
+                "Physical Medicine And Rehabilitation",
+                "Medical Microbiology",
+                "Infectious Diseases And Medical Microbiology",
+                "Nephrology",
+                "Neurosurgery",
+                "Neurology",
+                "Neurology - Pediatric",
+                "Neuropathology",
+                "Obstetrics And Gynecology",
+                "Medical Oncology",
+                "Ophthalmology",
+                "Otolaryngology - Head And Neck Surgery",
+                "General Pathology",
+                "Hematological Pathology",
+                "Pediatrics",
+                "Clinical Phramacology And Toxicology",
+                "Respirology",
+                "Psychiatry",
+                "Radiation Oncology",
+                "Diagnostic Radiology",
+                "Rheumatology",
+                "Public Health And Preventive Medicine",
+                "Critical Care Medicine",
+                "Urology"
+              ]
+            },
+            "signup_from": { "type": "string", "enum": ["external"] },
+            "workplace_role": {
+              "type": "string",
+              "enum": [
+                "physician",
+                "nurse_practitioner",
+                "prescriber_pharmacist",
+                "medical_student",
+                "physician_assistant",
+                "medical_resident",
+                "registered_nurse",
+                "administrative_agent"
+              ]
+            }
+          }
+        },
+        "ResendFax": {
+          "type": "object",
+          "properties": {
+            "prescription_id": {
+              "type": "string"
+            },
+            "new_fax_number": {
+              "type": "string"
+            }
+          }
+        },
+        "UpdatePrescription": {
+          "type": "object",
+          "properties": {
+            "prescription_id": {
+              "type": "string"
+            },
+            "status": {
+              "type": "string",
+              "enum": ["accepted", "rejected"]
+            },
+            "reject_reason": {
+              "type": "string"
+            }
+          }
+        },
+        "CreateNonFrontrxUserRequest": {
+          "type": "object",
+          "properties": {
+            "first_name": {
+              "type": "string"
+            },
+            "last_name": {
+              "type": "string"
+            },
+            "workplace_role": {
+              "type": "string",
+              "enum": [
+                "physician",
+                "nurse_practitioner",
+                "prescriber_pharmacist",
+                "medical_student",
+                "physician_assistant",
+                "medical_resident",
+                "registered_nurse",
+                "administrative_agent"
+              ]
+            },
+            "fax_number": {
+              "type": "string"
+            },
+            "workplace_id": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "securitySchemes": {
+        "bearerAuth": {
+          "type": "http",
+          "scheme": "bearer",
+          "bearerFormat": "JWT",
+          "description": "Prefix the value with \"Token\" to indicate the custom authorization prefix"
+        }
+      }
+    }
+  }
+  
