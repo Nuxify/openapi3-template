@@ -1,18 +1,18 @@
 {
     "openapi": "3.0.2",
     "info": {
-      "title": "FrontRx External API",
-      "description": "API documentation of FrontRx dedicated for third-party integrators.",
-      "termsOfService": "https://www.frontrx.com/terms-and-conditions/",
-      "contact": { "email": "support@frontrx.com" },
+      "title": "ACME External API",
+      "description": "API documentation of ACME dedicated for third-party integrators.",
+      "termsOfService": "https://www.nuxify.tech/terms-and-conditions/",
+      "contact": { "email": "support@nuxify.tech" },
       "version": "1.0.0"
     },
     "servers": [
       {
-        "url": "https://api.frontrx.com/api/external",
+        "url": "https://api.nuxify.tech/api/external",
         "description": "Production"
       },
-      { "url": "https://api2.frontrx.xyz/api/external", "description": "Staging" }
+      { "url": "https://api2.nuxify.tech/api/external", "description": "Staging" }
     ],
     "tags": [
       {
