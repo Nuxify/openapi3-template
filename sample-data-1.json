@@ -601,11 +601,11 @@
           }
         }
       },
-      "/document/non-frontrx-user": {
+      "/document/non-admin-user": {
         "post": {
           "tags": ["document"],
-          "summary": "Create non-frontrx user",
-          "description": "Create a non-frontrx user",
+          "summary": "Create non-admin user",
+          "description": "Create a non-admin user",
           "security": [
             {
               "bearerAuth": []
@@ -623,11 +623,11 @@
             }
           ],
           "requestBody": {
-            "description": "Create a non-frontrx user",
+            "description": "Create a non-admin user",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/CreateNonFrontrxUserRequest"
+                  "$ref": "#/components/schemas/CreateNonAdminUserRequest"
                 }
               }
             },
@@ -925,7 +925,7 @@
             }
           }
         },
-        "CreateNonFrontrxUserRequest": {
+        "CreateNonAdminUserRequest": {
           "type": "object",
           "properties": {
             "first_name": {
